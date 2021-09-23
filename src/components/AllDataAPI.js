@@ -1,43 +1,46 @@
 import React, { Component } from "react";
 import { withAuth0 } from "@auth0/auth0-react";
-import {Card,Button} from 'react-bootstrap/';
 import axios from "axios";
+import ComponentCard from './ComponentCard';
+
 class AllDataAPI extends Component {
 
 constructor(props) {
 super(props);
-this.state = {
 
+this.state = {
 cohcolatearray:[],
-showData:false
 };
 
 }
 
+//===============================DidMount FUNCTION =================
+ componentDidMount = async () =>{ 
 
- componentDidMount = async() =>{ 
-    // const {user} = this.props.auth0
-    //   let namee=user.name
 
     let url=(`${process.env.REACT_APP_SERVER}/chocolate`);
     
     let resultData = await axios.get(url);
-    console.log("ffffffffffff",cohcolatearray)
 
-     this.setState ({
-        cohcolatearray:resultData.data,
-        showData:true
-
-    })
+    await this.setState ({
+      cohcolatearray:resultData.data,
+  })
+  console.log('dddddd',this.state.cohcolatearray)
 }
 
+//====================ADD FUNCTION===============
 
 
+ addFavorite = async(itemObj)=>{
 
 
+let chocolateAdd = await axios.post(`${process.env.REACT_APP_SERVER}/addData?email=${this.props.auth0.user.email}`,itemObj);
 
+await this.setState({
+  cohcolatearray:chocolateAdd.data,
+})
 
-
+}
 
 
 
@@ -49,14 +52,26 @@ showData:false
 
 
         <>
-          <Card onSubmit={this.selectChocalate} style={{ width: "18rem" }}>
-            <Card.Img variant="top" src={this.state.cohcolatearray.imageUrl} />
-            <Card.Body>
-              <Card.Title>{this.state.cohcolatearray.title}</Card.Title>
-            
-              <Button variant="primary">Add-to-favorite</Button>
-            </Card.Body>
-          </Card>
+
+        {this.state.cohcolatearray.length !==0 ? ( this.state.cohcolatearray.map(item =>{
+
+       return (
+        <ComponentCard title={item.title} url={item.url} addFavorite={this.addFavorite} />
+
+       
+             )     
+        })
+
+         
+
+
+        ):(
+          console.log('not exist any chocolate')
+        )
+        
+        
+        }
+          
         </>
       </div>
     );
