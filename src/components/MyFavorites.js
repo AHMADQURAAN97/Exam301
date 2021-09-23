@@ -57,7 +57,7 @@ return item._id === chocoID;
 
 })
 
-this.setState({
+await this.setState({
   showModalForm:true,
   chocolateSelect:chocolateItem,
 })
