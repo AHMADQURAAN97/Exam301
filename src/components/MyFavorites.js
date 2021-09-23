@@ -38,7 +38,7 @@ this.state = {
   
   let url = await axios.delete(`${process.env.REACT_APP_SERVER}/deleteChoco/${chocoID}?email=${this.props.auth0.user.email}`)
   
-  this.setState({ 
+  await this.setState({ 
     chocolateFav:url.data
   })
   }
@@ -149,11 +149,14 @@ handleClose=()=>{
     <Form.Control type="text" defaultValue={this.state.chocolateSelect.url} name="url" />
 
   </Form.Group>
-  <Button variant="primary" type="submit">
+  <Button variant="primary" type="submit" >
     Submit
   </Button>
+ 
 </Form>
-        
+<Modal.Footer>
+    <Button onClick={this.handleClose} variant="secondary">Close</Button>
+  </Modal.Footer>
       </Modal>
       
     }
