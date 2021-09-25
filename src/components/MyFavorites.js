@@ -87,7 +87,11 @@ await this.setState({
 })
 console.log('yyyyyyyyyyyyyyyy',this.state.chocolateFav)
 
+this.componentDidMount();
+
 }
+
+
 handleClose=()=>{
 
   this.setState({
@@ -163,4 +167,3 @@ handleClose=()=>{
 }
 
 export default withAuth0(MyFavorites);
-
